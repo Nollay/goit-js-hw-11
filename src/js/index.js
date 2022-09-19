@@ -62,7 +62,6 @@ fetchImages(trimmedValue, pageNumber).then(Data => {
 }
 
 function renderList(images) {
-console.log(images, 'images');
 const markup = images
     .map(image => {
     console.log('img', image);
