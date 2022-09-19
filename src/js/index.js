@@ -1,10 +1,11 @@
 import { fetchImages } from '../js/fetchImage';
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
+import SimpleLightbox from "SimpleLightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+
 const input = document.querySelector('.search-form-input');
-const btnSearch = document.querySelector('.search-form-button');
+const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 const btnLoadMore = document.querySelector('.load-more');
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
@@ -12,7 +13,7 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 let pageNr = 40;
 
-btnSearch.addEventListener('click', event => {
+form.addEventListener('submit', event => {
 event.preventDefault();
 cleanGallery();
 let trimmedValue = input.value.trim();
@@ -27,38 +28,38 @@ if (trimmedValue !== '') {
         );
     } else {
         renderList(Data.hits);
+        gallerySimpleLightbox.refresh();
         Notiflix.Notify.success(
         `Hooray! We found ${Data.totalHits} images.`
         );
         if (Data.totalHits > 40) {
         btnLoadMore.style.display = 'block';
         }
-        gallerySimpleLightbox.refresh();
+        
     }
     });
 }
 });
 
-btnLoadMore.addEventListener('click', () => {
+btnLoadMore.addEventListener('click', loadMore);
+function loadMore() {
 pageNumber += 1;
 const trimmedValue = input.value.trim();
 
 fetchImages(trimmedValue, pageNumber).then(Data => {
     let totalPages = Math.ceil(Data.totalHits / pageNr);
-    console.log(totalPages);
-
-    if (pageNumber >= totalPages) {
+        if (pageNumber >= totalPages) {
     btnLoadMore.style.display = 'none';
-      // console.log('There are no more images');
-    Notiflix.Notify.failure(
+        Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
     );
     } else {
-    renderList(Data.hits);
+            renderList(Data.hits);
+            gallerySimpleLightbox.refresh();
     btnLoadMore.style.display = 'block';
     }
 });
-});
+}
 
 function renderList(images) {
 console.log(images, 'images');
@@ -84,7 +85,7 @@ const markup = images
     </div>`;
     })
     .join('');
-gallery.innerHTML += markup;
+gallery.insertAdjacentHTML('beforeend', markup);
 }
 
 function cleanGallery() {
