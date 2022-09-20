@@ -1,6 +1,6 @@
 import { fetchImages } from '../js/fetchImage';
 import Notiflix from 'notiflix';
-import SimpleLightbox from "simpleLightbox";
+import SimpleLightbox from "SimpleLightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
@@ -93,3 +93,5 @@ pageNumber = 1;
 btnLoadMore.style.display = 'none';
 let currentHits = 0;
 }
+
+// 
