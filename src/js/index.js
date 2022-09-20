@@ -20,7 +20,6 @@ let trimmedValue = input.value.trim();
 if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(Data => {
     let totalPages = Math.ceil(Data.totalHits / pageNr);
-    console.log(totalPages);
     if (Data.hits.length <= 0) {
         btnLoadMore.style.display = 'none';
         Notiflix.Notify.failure(
@@ -64,8 +63,7 @@ fetchImages(trimmedValue, pageNumber).then(Data => {
 function renderList(images) {
 const markup = images
     .map(image => {
-    console.log('img', image);
-    return `<div class="image-card">
+        return `<div class="image-card">
     <a href="${image.largeImageURL}"><img class="image" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy"/></a>
         <div class="statistic">
         <p class="statistic-item">
